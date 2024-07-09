@@ -7,7 +7,7 @@ export default function Block({ value, handleValue }) {
     } else if (value === false) {
         color = 'X';
     } else {
-        color = 'N';
+        color = '.';
     }
 
   return (

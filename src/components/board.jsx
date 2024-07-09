@@ -17,6 +17,10 @@ export default function Board() {
         setValue(newValue);
     }, []);
 
+    useEffect(() => {
+        handleCount();
+    }, [value]);
+
     function handlePlayer() {
         setPlayer(!player);
     }
@@ -96,7 +100,7 @@ export default function Board() {
             s++;
             t--;
         }
-        if (s >= 0 && t >= 0 && value[s][t] === player) {
+        if (s < 8 && t >= 0 && value[s][t] === player) {
             while (s >= n && t <= m) {
                 newValue[s][t] = player;
                 s--;
@@ -112,7 +116,7 @@ export default function Board() {
             s--;
             t++;
         }
-        if (s >= 0 && t >= 0 && value[s][t] === player) {
+        if (s >= 0 && t < 8 && value[s][t] === player) {
             while (s <= n && t >= m) {
                 newValue[s][t] = player;
                 s++;
@@ -147,29 +151,35 @@ export default function Board() {
         setValue(newValue);
         handleReverse(n, m);
         handlePlayer();
-        handleCount();
     }
 
-    // function handleCount(n, m) {
-    //     if (value[n][m] === true) {
-    //         setCountO(prevState => prevState + 1);
-    //     } else {
-    //         setCountX(prevState => prevState + 1);
-    //     }
-    // }
 
     function handleCount() {
-        setCountO(0);
-        setCountX(0);
+        let countO = 0;
+        let countX = 0;
         for (let i = 0; i < 8; i++) {
             for (let j = 0; j < 8; j++) {
                 if (value[i][j] === true) {
-                    setCountO(prevState => prevState + 1);
+                    countO++;
                 } else if (value[i][j] === false) {
-                    setCountX(prevState => prevState + 1);
+                    countX++;
                 }
             }
         }
+        setCountO(countO);
+        setCountX(countX);
+    }
+
+    function handleReset() {
+        const initialValue = Array(8).fill().map(() => Array(8).fill(null));
+        initialValue[3][3] = true;
+        initialValue[3][4] = false;
+        initialValue[4][3] = false;
+        initialValue[4][4] = true;
+        setValue(initialValue);
+        setPlayer(true);
+        setCountO(2);
+        setCountX(2);
     }
 
     return (
@@ -188,6 +198,7 @@ export default function Board() {
             <div>
                 <p>{player ? "O" : "X"}のターン</p>
             </div>
+            <button onClick={handleReset}>リセット</button>
         </>
     );
     }
