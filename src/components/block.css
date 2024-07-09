@@ -1,0 +1,10 @@
+.block {
+    width: 50px; /* セルの幅を固定 */
+    height: 50px; /* セルの高さを固定 */
+    /* position: fixed; */
+    align-items: center;
+    justify-content: center;
+    border: 1px solid #000; /* セルの境界線 */
+    font-size: 24px; /* 文字のサイズ */
+    background-color: green;
+}
